@@ -1,0 +1,12 @@
+{
+  "name": "@location-spoofer/wloc-scripts",
+  "version": "1.0.9",
+  "private": true,
+  "type": "module",
+  "license": "AGPL-3.0",
+  "scripts": {
+    "build": "node build.js",
+    "test": "node --test"
+  },
+  "moduleSubscriptionVersion": "1.0.9-state2"
+}

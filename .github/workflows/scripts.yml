@@ -1,0 +1,11 @@
+name: WLOC script tests
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: node ThirdParty/WlocScripts/build.js --check
+      - run: node --test ThirdParty/WlocScripts/test/*.test.js
