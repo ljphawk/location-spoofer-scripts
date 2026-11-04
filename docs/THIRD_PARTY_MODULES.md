@@ -17,13 +17,13 @@ as provenance and is not a runtime dependency.
 - Maintained runtime scripts: `ThirdParty/WlocScripts/dist/v2/`
 - Integrity and runtime tests: `ThirdParty/WlocScripts/test/`
 
-The App appends `?v=1.0.9-state2` to module subscription URLs, and every module uses
+The App appends `?v=1.0.9-control1` to module subscription URLs, and every module uses
 the same cache version for its script URLs:
 
 - default mirror:
-  `https://gh-proxy.org/https://raw.githubusercontent.com/ljphawk/location-spoofer-scripts/main/Resources/ThirdPartyProxyModules/<file>?v=1.0.9-state2`
+  `https://gh-proxy.org/https://raw.githubusercontent.com/ljphawk/location-spoofer-scripts/main/Resources/ThirdPartyProxyModules/<file>?v=1.0.9-control1`
 - direct:
-  `https://raw.githubusercontent.com/ljphawk/location-spoofer-scripts/main/ThirdParty/WlocScripts/modules/direct/<file>?v=1.0.9-state2`
+  `https://raw.githubusercontent.com/ljphawk/location-spoofer-scripts/main/ThirdParty/WlocScripts/modules/direct/<file>?v=1.0.9-control1`
 
 | Module file | Client |
 |---|---|
@@ -99,3 +99,25 @@ npm test
 The v1 engine remains byte-for-byte pinned. `build.js` replaces only its state
 resolver using maintained sources under `src/`; the settings endpoint is fully
 maintained there. Rebuilding the recovered upstream engine itself remains unavailable.
+
+## Local control endpoint (control1)
+
+The App uses `https://wloc-control.invalid/wloc-settings/save` for query, save,
+and clear. The module maps this reserved name to the documentation-only address
+`192.0.2.1`, routes it DIRECT, includes it in MITM, and returns the script response
+before contacting an upstream. No server or registered domain is required.
+Without the module, this endpoint must fail rather than forward coordinates to
+an unrelated public website. Do not replace the mapping with a public service.
+
+The Apple location response script and its matching rules are unchanged. Using
+an Apple location hostname for the control API can trigger Apple-specific trust
+pinning even with a user-trusted MITM root (device diagnostic error -67880).
+Both App and module must be updated. Legacy Apple control patterns remain for
+older App versions, but the new App never falls back to an Apple control URL.
+The v2 state protocol and persistent `wloc_settings` key are unchanged.
+
+On Shadowrocket, disable the old module, import the updated module into the
+active profile, save, and reconnect. Verify that the reserved control host appears
+in DNS mappings and HTTPS decryption. Test query first, then save, switch target,
+and clear with readback. A successful module query does not prove system GPS or
+Apple's location requests bypass their own pinning or cached fixes.

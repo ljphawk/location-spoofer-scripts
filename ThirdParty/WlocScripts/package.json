@@ -8,5 +8,5 @@
     "build": "node build.js",
     "test": "node --test"
   },
-  "moduleSubscriptionVersion": "1.0.9-state2"
+  "moduleSubscriptionVersion": "1.0.9-control1"
 }

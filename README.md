@@ -4,9 +4,9 @@
 
 ## 小火箭订阅
 
-[直连模块订阅](https://raw.githubusercontent.com/ljphawk/location-spoofer-scripts/main/ThirdParty/WlocScripts/modules/direct/wloc.module?v=1.0.9-state2)
+[直连模块订阅](https://raw.githubusercontent.com/ljphawk/location-spoofer-scripts/main/ThirdParty/WlocScripts/modules/direct/wloc.module?v=1.0.9-control1)
 
-[镜像模块订阅](https://gh-proxy.org/https://raw.githubusercontent.com/ljphawk/location-spoofer-scripts/main/Resources/ThirdPartyProxyModules/wloc.module?v=1.0.9-state2)
+[镜像模块订阅](https://gh-proxy.org/https://raw.githubusercontent.com/ljphawk/location-spoofer-scripts/main/Resources/ThirdPartyProxyModules/wloc.module?v=1.0.9-control1)
 
 打开小火箭「配置 → 模块」，停用旧 WLOC 模块，通过右上角「＋」粘贴以上地址下载并启用新版。确保当前配置开启 HTTPS 解密并信任小火箭证书，随后重新连接小火箭，在 App 内检测连接。
 

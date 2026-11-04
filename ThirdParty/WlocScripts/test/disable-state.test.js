@@ -28,7 +28,7 @@ function harness(client = 'Shadowrocket') {
     failWrites(mode) { writeMode = mode; },
     request(query) {
       let result;
-      vm.runInNewContext(settingsSource, { ...common, $request: { url: `https://gs-loc.apple.com/wloc-settings/save?${query}` },
+      vm.runInNewContext(settingsSource, { ...common, $request: { url: `https://wloc-control.invalid/wloc-settings/save?${query}` },
         $done(value) { result = JSON.parse((value.response ?? value).body); } });
       return result;
     },
@@ -143,5 +143,20 @@ test('every hosted module uses both maintained scripts and the App cache version
       assert.ok(urls.every(url => new URL(url).searchParams.get('v') === version), file);
       assert.ok(!module.includes('longitude='), 'module arguments must not activate spoofing');
     }
+  }
+});
+
+
+test('Shadowrocket control module resolves and intercepts the dedicated host', () => {
+  for (const directory of ['../modules/direct/', '../../../Resources/ThirdPartyProxyModules/']) {
+    const module = fs.readFileSync(new URL(directory + 'wloc.module', import.meta.url), 'utf8');
+    const line = module.split('\n').find(line => line.startsWith('WLOC Settings ='));
+    const pattern = new RegExp(line.match(/pattern=([^,]+),/)[1]);
+    assert.ok(pattern.test('https://wloc-control.invalid/wloc-settings/save?action=query'));
+    assert.ok(pattern.test('https://gs-loc.apple.com/wloc-settings/save?action=query'), 'legacy module compatibility');
+    assert.ok(!pattern.test('https://unrelated.invalid/wloc-settings/save?action=query'));
+    assert.match(module, /\[Host\]\s+wloc-control\.invalid = 192\.0\.2\.1/);
+    assert.match(module, /DOMAIN,wloc-control\.invalid,DIRECT/);
+    assert.ok(module.split('\n').some(line => line.startsWith('hostname =') && line.includes('wloc-control.invalid')));
   }
 });

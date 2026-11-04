@@ -2,11 +2,16 @@ name: Apple WLOC 定位修改
 desc: "Apple 网络定位修改 | 使用说明: https://github.com/ljphawk/location-spoofer-scripts/blob/main/docs/THIRD_PARTY_MODULES.md"
 author: Yu9191 Rewrite
 homepage: https://github.com/ljphawk/location-spoofer-scripts
-icon: https://raw.githubusercontent.com/ljphawk/location-spoofer-scripts/main/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png
 category: Tools
+
+hosts:
+  "wloc-control.invalid": 192.0.2.1
+rules:
+  - DOMAIN,wloc-control.invalid,DIRECT
 
 http:
   mitm:
+    - "wloc-control.invalid"
     - "gs-loc.apple.com"
     - "gs-loc-cn.apple.com"
     - "gsp-ssl.ls.apple.com"
@@ -21,7 +26,7 @@ http:
       max-size: 0
       timeout: 30
       argument: logLevel=info
-    - match: ^https?:\/\/gs-loc(-cn)?\.apple\.com\/wloc-settings\/save
+    - match: ^https?:\/\/(?:wloc-control\.invalid|gs-loc(-cn)?\.apple\.com)\/wloc-settings\/save
       name: WLOC.Settings
       type: request
       require-body: false
@@ -29,8 +34,8 @@ http:
 
 script-providers:
   WLOC.Location:
-    url: https://raw.githubusercontent.com/ljphawk/location-spoofer-scripts/main/ThirdParty/WlocScripts/dist/v2/wloc.js?v=1.0.9-state2
+    url: https://raw.githubusercontent.com/ljphawk/location-spoofer-scripts/main/ThirdParty/WlocScripts/dist/v2/wloc.js?v=1.0.9-control1
     interval: 86400
   WLOC.Settings:
-    url: https://raw.githubusercontent.com/ljphawk/location-spoofer-scripts/main/ThirdParty/WlocScripts/dist/v2/wloc-settings.js?v=1.0.9-state2
+    url: https://raw.githubusercontent.com/ljphawk/location-spoofer-scripts/main/ThirdParty/WlocScripts/dist/v2/wloc-settings.js?v=1.0.9-control1
     interval: 86400

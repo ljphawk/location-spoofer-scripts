@@ -7,8 +7,14 @@
 #!arguments-desc=日志级别: off/error/warn/info/debug/all\n坐标和启用状态由 App 保存与清除，不再从模块参数恢复。
 
 [Script]
-Apple WLOC = type=http-response, pattern="^https?:\/\/(?:gs-loc(?:-cn)?\.apple\.com|gsp-ssl\.ls\.apple\.com|bluedot\.is\.autonavi\.com(?:\.gds\.alibabadns\.com)?)\/clls\/wloc", requires-body=1, binary-body-mode=1, max-size=0, timeout=30, script-path=https://gh-proxy.org/https://raw.githubusercontent.com/ljphawk/location-spoofer-scripts/main/ThirdParty/WlocScripts/dist/v2/wloc.js?v=1.0.9-state2, argument=logLevel={{{日志级别}}}
-WLOC Settings = type=http-request, pattern="^https?:\/\/gs-loc(-cn)?\.apple\.com\/wloc-settings\/save", requires-body=0, max-size=0, timeout=10, script-path=https://gh-proxy.org/https://raw.githubusercontent.com/ljphawk/location-spoofer-scripts/main/ThirdParty/WlocScripts/dist/v2/wloc-settings.js?v=1.0.9-state2
+Apple WLOC = type=http-response, pattern="^https?:\/\/(?:gs-loc(?:-cn)?\.apple\.com|gsp-ssl\.ls\.apple\.com|bluedot\.is\.autonavi\.com(?:\.gds\.alibabadns\.com)?)\/clls\/wloc", requires-body=1, binary-body-mode=1, max-size=0, timeout=30, script-path=https://gh-proxy.org/https://raw.githubusercontent.com/ljphawk/location-spoofer-scripts/main/ThirdParty/WlocScripts/dist/v2/wloc.js?v=1.0.9-control1, argument=logLevel={{{日志级别}}}
+WLOC Settings = type=http-request, pattern="^https?:\/\/(?:wloc-control\.invalid|gs-loc(-cn)?\.apple\.com)\/wloc-settings\/save", requires-body=0, max-size=0, timeout=10, script-path=https://gh-proxy.org/https://raw.githubusercontent.com/ljphawk/location-spoofer-scripts/main/ThirdParty/WlocScripts/dist/v2/wloc-settings.js?v=1.0.9-control1
 
 [MITM]
-hostname = %APPEND% gs-loc.apple.com, gs-loc-cn.apple.com, gsp-ssl.ls.apple.com, bluedot.is.autonavi.com, bluedot.is.autonavi.com.gds.alibabadns.com
+hostname = %APPEND% wloc-control.invalid, gs-loc.apple.com, gs-loc-cn.apple.com, gsp-ssl.ls.apple.com, bluedot.is.autonavi.com, bluedot.is.autonavi.com.gds.alibabadns.com
+
+[Host]
+wloc-control.invalid = 192.0.2.1
+
+[Rule]
+DOMAIN,wloc-control.invalid,DIRECT

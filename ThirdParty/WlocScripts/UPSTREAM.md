@@ -28,7 +28,7 @@ The two files under `dist/v1/` and `LICENSE` are byte-for-byte copies from the
 pinned restoration. Module files retain the recovered interception behavior but
 replace homepage, documentation, icon, and script URLs with project-owned URLs.
 The mirrored module variants use `gh-proxy.org`; direct variants use GitHub Raw.
-Both now use the maintained `dist/v2/` runtime with cache version `1.0.9-state2`.
+Both now use the maintained `dist/v2/` runtime with cache version `1.0.9-control1`.
 
 ### Maintained v2 runtime
 
