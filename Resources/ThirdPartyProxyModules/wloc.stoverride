@@ -34,8 +34,8 @@ http:
 
 script-providers:
   WLOC.Location:
-    url: https://gh-proxy.org/https://raw.githubusercontent.com/ljphawk/location-spoofer-scripts/main/ThirdParty/WlocScripts/dist/v2/wloc.js?v=1.0.9-control1
+    url: https://gh-proxy.org/https://raw.githubusercontent.com/ljphawk/location-spoofer-scripts/codex/local-control-endpoint/ThirdParty/WlocScripts/dist/v2/wloc.js?v=1.0.9-control2
     interval: 86400
   WLOC.Settings:
-    url: https://gh-proxy.org/https://raw.githubusercontent.com/ljphawk/location-spoofer-scripts/main/ThirdParty/WlocScripts/dist/v2/wloc-settings.js?v=1.0.9-control1
+    url: https://gh-proxy.org/https://raw.githubusercontent.com/ljphawk/location-spoofer-scripts/codex/local-control-endpoint/ThirdParty/WlocScripts/dist/v2/wloc-settings.js?v=1.0.9-control2
     interval: 86400

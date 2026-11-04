@@ -17,13 +17,13 @@ as provenance and is not a runtime dependency.
 - Maintained runtime scripts: `ThirdParty/WlocScripts/dist/v2/`
 - Integrity and runtime tests: `ThirdParty/WlocScripts/test/`
 
-The App appends `?v=1.0.9-control1` to module subscription URLs, and every module uses
+The App appends `?v=1.0.9-control2` to module subscription URLs, and every module uses
 the same cache version for its script URLs:
 
 - default mirror:
-  `https://gh-proxy.org/https://raw.githubusercontent.com/ljphawk/location-spoofer-scripts/main/Resources/ThirdPartyProxyModules/<file>?v=1.0.9-control1`
+  `https://gh-proxy.org/https://raw.githubusercontent.com/ljphawk/location-spoofer-scripts/main/Resources/ThirdPartyProxyModules/<file>?v=1.0.9-control2`
 - direct:
-  `https://raw.githubusercontent.com/ljphawk/location-spoofer-scripts/main/ThirdParty/WlocScripts/modules/direct/<file>?v=1.0.9-control1`
+  `https://raw.githubusercontent.com/ljphawk/location-spoofer-scripts/main/ThirdParty/WlocScripts/modules/direct/<file>?v=1.0.9-control2`
 
 | Module file | Client |
 |---|---|
@@ -121,3 +121,15 @@ active profile, save, and reconnect. Verify that the reserved control host appea
 in DNS mappings and HTTPS decryption. Test query first, then save, switch target,
 and clear with readback. A successful module query does not prove system GPS or
 Apple's location requests bypass their own pinning or cached fixes.
+
+## Response execution diagnostics
+
+The control2 runtime stores one bounded `wloc_runtime_diagnostics` record locally.
+Query responses optionally expose it as `runtimeDiagnostics`: hook timestamp,
+host/path without query parameters, completion stage, HTTP status, body byte
+counts, whether spoofing was enabled, and whether output bytes changed.
+It contains no response bodies, headers or coordinate values. Diagnostic storage
+failure must not prevent the original script completion. A missing or stale
+record means there is no recent observed response-hook execution; it does not
+identify a trust failure by itself. A changed body is not proof that Core
+Location accepted it. The App includes this metadata in `ThirdPartyRuntime` logs.

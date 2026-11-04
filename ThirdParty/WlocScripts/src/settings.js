@@ -53,6 +53,12 @@
       throw new Error('不支持的定位操作');
     }
     result = { success: true, ...state, protocolVersion: 2 };
+    if (action === 'query') {
+      try {
+        const raw = isQuantumult ? $prefs.valueForKey('wloc_runtime_diagnostics') : $persistentStore.read('wloc_runtime_diagnostics');
+        if (raw) result.runtimeDiagnostics = JSON.parse(raw);
+      } catch (_) { /* Runtime diagnostics do not determine the saved state. */ }
+    }
   } catch (error) {
     result = { success: false, error: error.message || '定位操作失败', protocolVersion: 2 };
   }

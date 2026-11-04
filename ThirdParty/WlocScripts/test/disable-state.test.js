@@ -160,3 +160,29 @@ test('Shadowrocket control module resolves and intercepts the dedicated host', (
     assert.ok(module.split('\n').some(line => line.startsWith('hostname =') && line.includes('wloc-control.invalid')));
   }
 });
+
+
+test('response diagnostics report the actual patch and return through the query endpoint', async () => {
+  const h = harness();
+  h.request('lon=121.1&lat=31.2');
+  await h.response('', locationFrame());
+  const diag = h.request('action=query').runtimeDiagnostics;
+  assert.equal(diag.stage, 'completed');
+  assert.equal(diag.host, 'gs-loc.apple.com');
+  assert.equal(diag.path, '/clls/wloc');
+  assert.equal(diag.enabled, true);
+  assert.equal(diag.changed, true);
+  assert.ok(diag.inputBytes > 0);
+  assert.ok(diag.outputBytes > 0);
+  assert.deepEqual(Object.keys(diag).sort(), ['timestamp', 'stage', 'host', 'path', 'status', 'inputBytes', 'outputBytes', 'enabled', 'changed'].sort());
+  h.request('action=clear');
+  await h.response('', locationFrame());
+  assert.equal(h.request('action=query').runtimeDiagnostics.changed, false);
+});
+
+test('diagnostic storage failures do not interrupt response passthrough', async () => {
+  const h = harness();
+  h.failWrites('throw');
+  const { result, original } = await h.response();
+  assert.deepEqual(result.body, original);
+});
